@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="INFORMATION" name="com.content.Information">
+		<id name="id" column="INFORMATION_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="informationCategoryId" column="INFORMATION_CATEGORY_ID"/>
+    	<property name="schoolId" column="SCHOOL_ID"/>
+    	<property name="professionalId" column="PROFESSIONAL_ID"/>
+    	<property name="url" column="URL"/>
+    	<property name="content" column="CONTENT"/>
+    	<property name="year" column="YEAR"/>
+    	<property name="setDate" column="SET_DATE"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>
+	</class>
+	
+  	<query name="INFORMATION.QUERY_BY_NAME_SCHOOL_PROFESSIONAL_YEAR">
+		<![CDATA[ 
+		 select distinct i from Information i, School ss, Professional pp 
+		 where (:name is null or i.name like :name) 
+		 and (:school is null or (ss.id = i.schoolId and ss.name like :school)) 
+		 and (:professional is null or (pp.id = i.professionalId and pp.name like :professional)) 
+		 and (:year is null or i.year = :year) 
+		 order by i.updateDate desc
+		 ]]>
+	</query>
+</hibernate-mapping>

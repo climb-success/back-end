@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="PROFESSIONAL" name="com.content.Professional">
+		<id name="id" column="PROFESSIONAL_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>
+	</class>
+	
+	<query name="PROFESSIONAL.QUERY_ALL">
+		<![CDATA[ 
+		 from Professional order by name desc
+		 ]]>
+	</query>
+	<query name="PROFESSIONAL.QUERY_BY_NAME">
+		<![CDATA[ 
+		 from Professional where name = :name
+		 ]]>
+	</query>
+</hibernate-mapping>

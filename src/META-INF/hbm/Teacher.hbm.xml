@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="TEACHER" name="com.content.Teacher">
+		<id name="id" column="TEACHER_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="schoolId" column="SCHOOL_ID"/>
+    	<property name="professionalId" column="PROFESSIONAL_ID"/>
+    	<property name="telePhone" column="TELEPHONE"/>
+    	<property name="qq" column="QQ"/>
+    	<property name="weixin" column="WEIXIN"/>
+    	<property name="requirement" column="REQUIREMENT"/>
+    	<property name="grade" column="GRADE"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>    
+	</class>
+	
+ 	<query name="TEACHER.QUERY_BY_NAME_SCHOOL_PROFESSION_REQUIREMENT">
+		<![CDATA[ 
+		 select distinct t from Teacher t, School ss, Professional pp 
+		 where (:name is null or t.name like :name) 
+		 and (:school is null or (ss.id = t.schoolId and ss.name like :school)) 
+		 and (:professional is null or (pp.id = t.professionalId and pp.name like :professional)) 
+		 and (:requirement is null or t.requirement like :requirement) 
+		 and (:grade is null or t.grade = :grade) 
+		 order by t.updateDate desc
+		 ]]>
+	</query>
+	<query name="TEACHER.QUERY_BY_TELEPHONE">
+		<![CDATA[ 
+		 from Teacher as t where t.telePhone = :telePhone
+		 ]]>
+	</query>
+</hibernate-mapping>

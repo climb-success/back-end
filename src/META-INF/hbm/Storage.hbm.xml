@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="STORAGE" name="com.content.Storage">
+		<id name="id" column="STORAGE_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="path" column="PATH"/>
+    	<property name="location" column="LOCATION"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>
+	</class>
+	
+	<query name="STORAGE.QUERY_BY_NAME">
+		<![CDATA[ 
+		 from Storage as s where s.name = :name
+		 ]]>
+	</query>
+	<query name="STORAGE.QUERY_ALL">
+		<![CDATA[ 
+		 from Professional order by name desc
+		 ]]>
+	</query>
+</hibernate-mapping>

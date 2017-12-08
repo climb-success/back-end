@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="SCHOOL_PROFESSIONAL" name="com.content.SchoolProfessional">
+		<id name="id" column="SCHOOL_PROFESSIONAL_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="schoolId" column="SCHOOL_ID"/>
+    	<property name="professionalId" column="PROFESSIONAL_ID"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>
+	</class>
+	
+	<query name="SCHOOLPROFESSIONAL.QUERY_BY_SCHOOLID">
+		<![CDATA[ 
+		 from SchoolProfessional sp where sp.schoolId = :schoolId
+		 ]]>
+	</query>
+</hibernate-mapping>

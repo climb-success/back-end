@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="ADMINISTRATOR" name="com.content.Administrator">
+		<id name="id" column="ADMIN_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="password" column="PASSWORD"/>
+	</class>
+	
+ 	<query name="ADMINISTRATOR.VALIDATE">
+		<![CDATA[ 
+		 from Administrator as ad where ad.id = :id 
+		 and (ad.name = :name) 
+		 and (ad.password = :password) 
+		 ]]>
+	</query>
+	<query name="ADMINISTRATOR.VALIDATE_NAME">
+		<![CDATA[ 
+		 from Administrator as ad where (ad.name = :name) 
+		 order by ad.id desc
+		 ]]>
+	</query>
+	<query name="ADMINISTRATOR.VALIDATE_NAME_PASSWORD">
+		<![CDATA[ 
+		 from Administrator as ad where (ad.name = :name) 
+		 and (ad.password = :password) 
+		 order by ad.id desc
+		 ]]>
+	</query>
+</hibernate-mapping>

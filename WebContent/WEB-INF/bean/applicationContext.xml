@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+    
+    <bean id="service.Admin" class="com.dao.DaoAdmin"/>
+    
+	<bean id="service.Student" class="com.dao.DaoStudent"/>
+	<bean id="service.Teacher" class="com.dao.DaoTeacher"/>
+	<bean id="service.School" class="com.dao.DaoSchool"/>
+	<bean id="service.Professional" class="com.dao.DaoProfessional"/>
+	<bean id="service.SchoolProfessional" class="com.dao.DaoSchoolProfessional"/>
+	
+	<bean id="service.Storage" class="com.dao.DaoStorage"/>
+	<bean id="service.InformationCategory" class="com.dao.DaoInformationCategory"/>
+	<bean id="service.Information" class="com.dao.DaoInformation"/>
+	
+   <!-- 	<bean name="service.Student">
+		<property name="target">
+			<bean class="com.dao.StudentService"/>
+		</property>
+	</bean> -->
+       
+</beans>

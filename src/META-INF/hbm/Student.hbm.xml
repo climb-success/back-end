@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="STUDENT" name="com.content.Student">
+		<id name="id" column="STUDENT_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="schoolId" column="SCHOOL_ID"/>
+    	<property name="professionalId" column="PROFESSIONAL_ID"/>
+    	<property name="telePhone" column="TELEPHONE"/>
+    	<property name="qq" column="QQ"/>
+    	<property name="weixin" column="WEIXIN"/>
+    	<property name="requirement" column="REQUIREMENT"/>
+    	<property name="grade" column="GRADE"/>
+    	<property name="status" column="STATUS"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>    
+	</class>
+	
+  	<query name="STUDENT.QUERY_BY_NAME_SCHOOL_PROFESSION_REQUIREMENT_GRADE_STATUS">
+		<![CDATA[ 
+		 select distinct s from Student s, School ss, Professional pp 
+		 where (:name is null or s.name like :name) 
+		 and (:school is null or (ss.id = s.schoolId and ss.name like :school)) 
+		 and (:professional is null or (pp.id = s.professionalId and pp.name like :professional)) 
+		 and (:requirement is null or s.requirement like :requirement) 
+		 and (:grade is null or s.grade = :grade) 
+		 and (:status is null or s.status = :status) 
+		 order by s.updateDate desc
+		 ]]>
+	</query>
+	<query name="STUDENT.QUERY_BY_TELEPHONE">
+		<![CDATA[ 
+		 from Student as s where s.telePhone = :telePhone
+		 ]]>
+	</query>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="SCHOOL" name="com.content.School">
+		<id name="id" column="SCHOOL_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="province" column="PROVINCE"/>
+	</class>
+	
+ 	<query name="SCHOOL.QUERY_ALL">
+		<![CDATA[ 
+		 from School order by name desc
+		 ]]>
+	</query>
+	
+	<query name="SCHOOL.QUERY_BY_NAME_PROVINCE">
+		<![CDATA[ 
+		 from School as s where (:name is null or s.name like :name) 
+		 and (:province is null or s.province like :province) 
+		 order by s.id desc
+		 ]]>
+	</query>
+</hibernate-mapping>

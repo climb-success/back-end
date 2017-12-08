@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="INFORMATION_CATEGORY" name="com.content.InformationCategory">
+		<id name="id" column="INFORMATION_CATEGORY_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+    	<property name="name" column="NAME"/>
+    	<property name="chineseName" column="CHINESE_NAME"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>
+	</class>
+	
+	<query name="INFORMATIONCATEGORY.QUERY_BY_NAME">
+		<![CDATA[ 
+		 from InformationCategory as ic 
+		 where (:name is null or (ic.name like :name or ic.chineseName like :name)) 
+		 order by ic.id desc
+		 ]]>
+	</query>
+</hibernate-mapping>
