@@ -18,14 +18,14 @@ import com.util.TextUtil;
  */
 public class DaoTeacher extends DaoService implements TeacherService
 {
-    public Teacher createTeacher(Teacher te)
+    public Teacher createTeacher(Teacher teacher)
     {
-        return (Teacher) create(te);
+        return (Teacher) create(teacher);
     }
     
-    public Teacher updateTeacher(Teacher te)
+    public Teacher updateTeacher(Teacher teacher)
     {
-        return (Teacher) update(te);
+        return (Teacher) update(teacher);
     }
     
     public Teacher getById(Integer id)
@@ -33,9 +33,9 @@ public class DaoTeacher extends DaoService implements TeacherService
         return (Teacher) find(Teacher.class, id);
     }
     
-    public void deleteTeacher(Teacher te)
+    public void deleteTeacher(Teacher teacher)
     {
-        delete(te);
+        delete(teacher);
     }
     
     public Teacher[] queryTeachers(String name, String school, String professional, String requirement, Integer grade)

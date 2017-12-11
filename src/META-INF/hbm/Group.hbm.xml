@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="SUPER_GROUP" name="com.content.Group">
+		<id name="id" column="SUPER_GROUP_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="NAME"/>
+    	<property name="qq" column="QQ"/>
+    	<property name="qqCode" column="QQ_CODE"/>
+    	<property name="weixin" column="WEIXIN"/>
+    	<property name="weixinCode" column="WEIXIN_CODE"/>
+    	<property name="year" column="YEAR"/>
+    	<property name="schoolId" column="SCHOOL_ID"/>
+    	<property name="professionalId" column="PROFESSIONAL_ID"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>    
+	</class>
+	
+ 	<query name="SUPER_GROUP.QUERY_BY_SCHOOL_PROFESSION">
+		<![CDATA[ 
+		 select distinct g from Group g, School ss, Professional pp 
+		 where ((:schoolId is null or g.schoolId = :schoolId) and (ss.id = g.schoolId and ss.province = :province)) 
+		 and (:professionalId is null or (pp.id = g.professionalId and g.professionalId = :professionalId)) 
+		 and (:year is null or g.year = :year)  
+		 order by g.updateDate desc
+		 ]]>
+	</query>
+ 	<query name="SUPER_GROUP.QUERY_BY_NAME">
+		<![CDATA[ 
+		 from Group as g where g.name = :name
+		 ]]>
+	</query>
+</hibernate-mapping>

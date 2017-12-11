@@ -7,6 +7,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.dao.AdminService;
+import com.dao.GroupService;
 import com.dao.InformationCategoryService;
 import com.dao.InformationService;
 import com.dao.ProfessionalService;
@@ -26,6 +27,11 @@ public class ServiceFactory
     public static AdminService getAdminService()
     {
         return (AdminService) getService("service.Admin");
+    }
+    
+    public static GroupService getGroupService()
+    {
+        return (GroupService) getService("service.Group");
     }
     
     public static StudentService getStudentService()

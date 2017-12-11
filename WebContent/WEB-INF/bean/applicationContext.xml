@@ -16,6 +16,8 @@ xsi:schemaLocation="
     
     <bean id="service.Admin" class="com.dao.DaoAdmin"/>
     
+    <bean id="service.Group" class="com.dao.DaoGroup"/>
+    
 	<bean id="service.Student" class="com.dao.DaoStudent"/>
 	<bean id="service.Teacher" class="com.dao.DaoTeacher"/>
 	<bean id="service.School" class="com.dao.DaoSchool"/>

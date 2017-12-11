@@ -13,13 +13,13 @@ import com.content.Teacher;
  */
 public interface TeacherService
 {
-    public Teacher createTeacher(Teacher te);
+    public Teacher createTeacher(Teacher teacher);
     
-    public Teacher updateTeacher(Teacher te);
+    public Teacher updateTeacher(Teacher teacher);
     
     public Teacher getById(Integer id);
     
-    public void deleteTeacher(Teacher te);
+    public void deleteTeacher(Teacher teacher);
     
     public Teacher[] queryTeachers(String name, String school, String professional, String requirement, Integer grade);
 

@@ -35,6 +35,8 @@
 	        
 	        <!--指定映射文件为“hibernate/ch1/UserInfo.hbm.xml”-->
 	        <mapping resource="META-INF/hbm/Administrator.hbm.xml"/>
+	        
+	        <mapping resource="META-INF/hbm/Group.hbm.xml"/>
 	               
 	        <mapping resource="META-INF/hbm/Student.hbm.xml"/>
 	        <mapping resource="META-INF/hbm/Teacher.hbm.xml"/>
