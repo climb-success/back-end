@@ -71,6 +71,7 @@ public class StudentController extends ControllerUtil
                 studentdb.setStatus(TextUtil.isEmpty(student.getStatus()) ? Student.STATUS_NOT_FINISH : student.getStatus());
                 studentdb.setUpdateDate(new Date());
                 studentService.updateStudent(studentdb);
+                studentService.sendStudentEmail(studentdb);
             }
             else
             {
@@ -78,6 +79,7 @@ public class StudentController extends ControllerUtil
                 student.setStatus(Student.STATUS_NOT_FINISH);
                 student.setUpdateDate(new Date());
                 studentService.createStudent(student);
+                studentService.sendStudentEmail(student);
             }
             
             return SUCCESS;

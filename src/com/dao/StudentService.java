@@ -24,4 +24,6 @@ public interface StudentService
     public Student[] queryStudents(String name, String school, String professional, String requirement, Integer grade, String status);
 
     public Student queryStudentByTelePhone(String telePhone);
+    
+    public boolean sendStudentEmail(Student student);
 }

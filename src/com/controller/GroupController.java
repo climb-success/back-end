@@ -51,7 +51,10 @@ public class GroupController extends ControllerUtil
         {
             ObjectMapper mapper = new ObjectMapper();
             Group group = mapper.readValue(jsonString, Group.class);
-            Group groupdb = groupService.queryGroupByName(group.getName());
+            Group groupdb = null;
+            if (group.getId() != 0 
+                    && group.getId() != null)
+                groupdb = groupService.getById(group.getId());
             
             if (groupdb != null 
                     && groupdb.getId() != null 

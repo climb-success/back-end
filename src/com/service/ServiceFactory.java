@@ -7,6 +7,8 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.dao.AdminService;
+import com.dao.ConfigService;
+import com.dao.EmailService;
 import com.dao.GroupService;
 import com.dao.InformationCategoryService;
 import com.dao.InformationService;
@@ -32,6 +34,11 @@ public class ServiceFactory
     public static GroupService getGroupService()
     {
         return (GroupService) getService("service.Group");
+    }
+    
+    public static ConfigService getConfigService()
+    {
+        return (ConfigService) getService("service.Config");
     }
     
     public static StudentService getStudentService()
@@ -72,6 +79,11 @@ public class ServiceFactory
     public static InformationService getInformationService()
     {
         return (InformationService) getService("service.Information");
+    }
+    
+    public static EmailService getEmailService()
+    {
+        return (EmailService) getService("service.Email");
     }
     
     private static Object getService(String beanName)

@@ -17,6 +17,7 @@ xsi:schemaLocation="
     <bean id="service.Admin" class="com.dao.DaoAdmin"/>
     
     <bean id="service.Group" class="com.dao.DaoGroup"/>
+    <bean id="service.Config" class="com.dao.DaoConfig"/>
     
 	<bean id="service.Student" class="com.dao.DaoStudent"/>
 	<bean id="service.Teacher" class="com.dao.DaoTeacher"/>
@@ -27,6 +28,13 @@ xsi:schemaLocation="
 	<bean id="service.Storage" class="com.dao.DaoStorage"/>
 	<bean id="service.InformationCategory" class="com.dao.DaoInformationCategory"/>
 	<bean id="service.Information" class="com.dao.DaoInformation"/>
+	
+	<bean name="service.Email" class="com.dao.DaoEmail">
+		<property name="userName" value="wozijilele@163.com"></property>
+		<property name="password" value="wo123456"></property>
+		<property name="host" value="smtp.163.com"></property>
+		<property name="port" value="25"></property>
+	</bean>
 	
    <!-- 	<bean name="service.Student">
 		<property name="target">

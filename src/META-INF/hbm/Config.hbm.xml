@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class table="CONFIG" name="com.content.Config">
+		<id name="id" column="CONFIG_ID" unsaved-value="0">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="NAME"/>
+    	<property name="input" column="INPUT"/>
+    	<property name="descrption" column="DESCRIPTION"/>
+    	<property name="updateDate" column="UPDATE_DATE"/>
+	</class>
+	
+ 	<query name="CONFIG.QUERY_ALL">
+		<![CDATA[ 
+		 from Config order by name desc
+		 ]]>
+	</query>
+ 	<query name="CONFIG.QUERY_BY_NAME">
+		<![CDATA[ 
+		 from Config as c where (:name is null or c.name = :name)
+		 ]]>
+	</query>
+</hibernate-mapping>

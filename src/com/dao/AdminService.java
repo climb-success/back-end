@@ -26,4 +26,6 @@ public interface AdminService
     public boolean validateAdmin(String name);
     
     public boolean validateAdmin(String name, String password);
+    
+    public Administrator[] getAllAdmin();
 }

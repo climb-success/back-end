@@ -117,4 +117,23 @@ public class DaoAdmin extends DaoService implements AdminService
         
         return false;
     }
+
+    /**
+     * @see com.dao.AdminService#getAllAdmin()
+     */
+    @Override
+    public Administrator[] getAllAdmin()
+    {
+        Administrator[] admins = null;
+        Map args = new HashMap<>();
+        Object[] result = query("ADMINISTRATOR.QUERY_ALL", args);
+        if (result == null 
+                || result.length == 0)
+            return null;
+        
+        admins = new Administrator[result.length];
+        for (int i = 0; i < result.length; i ++)
+            admins[i] = (Administrator) result[i];
+        return admins;
+    }
 }

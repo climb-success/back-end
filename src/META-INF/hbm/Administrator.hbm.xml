@@ -7,6 +7,7 @@
 		</id>
     	<property name="name" column="NAME"/>
     	<property name="password" column="PASSWORD"/>
+    	<property name="email" column="EMAIL"/>
 	</class>
 	
  	<query name="ADMINISTRATOR.VALIDATE">
@@ -27,6 +28,11 @@
 		 from Administrator as ad where (ad.name = :name) 
 		 and (ad.password = :password) 
 		 order by ad.id desc
+		 ]]>
+	</query>
+	<query name="ADMINISTRATOR.QUERY_ALL">
+		<![CDATA[ 
+		 from Administrator as ad order by ad.id desc
 		 ]]>
 	</query>
 </hibernate-mapping>

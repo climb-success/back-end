@@ -37,6 +37,7 @@
 	        <mapping resource="META-INF/hbm/Administrator.hbm.xml"/>
 	        
 	        <mapping resource="META-INF/hbm/Group.hbm.xml"/>
+	         <mapping resource="META-INF/hbm/Config.hbm.xml"/>
 	               
 	        <mapping resource="META-INF/hbm/Student.hbm.xml"/>
 	        <mapping resource="META-INF/hbm/Teacher.hbm.xml"/>

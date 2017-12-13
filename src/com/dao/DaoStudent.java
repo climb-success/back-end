@@ -3,11 +3,20 @@
  */
 package com.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.content.Administrator;
+import com.content.Config;
+import com.content.Mail;
 import com.content.Student;
 import com.hibernate.DaoService;
+import com.service.ServiceFactory;
+import com.util.LogUtil;
 import com.util.TextUtil;
 
 /**
@@ -18,6 +27,8 @@ import com.util.TextUtil;
  */
 public class DaoStudent extends DaoService implements StudentService
 {
+    private static Logger logger = Logger.getLogger(DaoStudent.class);
+    
     public Student createStudent(Student student)
     {
         return (Student) create(student);
@@ -72,5 +83,58 @@ public class DaoStudent extends DaoService implements StudentService
             return null;
         
         return (Student) result[0];
+    }
+
+    /**
+     * @see com.dao.StudentService#sendStudentEmail(com.content.Student)
+     */
+    @Override
+    public boolean sendStudentEmail(Student student)
+    {
+        Administrator[] administrators = ServiceFactory.getAdminService().getAllAdmin();
+        if (administrators == null || administrators.length == 0)
+            return false;
+        
+        if (Student.STATUS_NOT_FINISH.equals(student.getStatus()))
+        {
+            EmailService emailService = ServiceFactory.getEmailService();
+            String subject = "Ñ§Éú¶©µ¥";
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("name", student.getName());
+            Config config = ServiceFactory.getConfigService().queryOneConfigByName(Config.POST_URL);
+            String path = null;
+            if (config != null 
+                    && !TextUtil.isEmpty(config.getInput()))
+                path = config.getInput();
+            if (!TextUtil.isEmpty(path))
+            {
+                path = path.endsWith("/") ? path : path + "/";
+                path = path + "editStudent?id=" + student.getId();
+            }
+            map.put("url", path);
+            String content = emailService.getContent(Mail.STUDENT_TEMPLATE, map);
+            String to = null;
+            List<String> ccList = new ArrayList<String>();
+            for (Administrator admin : administrators)
+            {
+                if (TextUtil.isEmpty(admin.getEmail()))
+                    continue;
+                
+                if (TextUtil.isEmpty(to))
+                    to = admin.getEmail();
+                else 
+                    ccList.add(admin.getEmail());
+            }
+            
+            try
+            {
+                return emailService.sendMail(to, ccList.toArray(new String[ccList.size()]), subject, content);
+            }
+            catch (Exception e)
+            {
+                logger.error(LogUtil.toString(e));
+            }
+        }
+        return false;
     }
 }

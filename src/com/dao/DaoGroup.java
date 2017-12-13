@@ -33,9 +33,9 @@ public class DaoGroup extends DaoService implements GroupService
         return (Group) find(Group.class, id);
     }
     
-    public void deleteGroup(Group te)
+    public void deleteGroup(Group group)
     {
-        delete(te);
+        delete(group);
     }
     
     public Group[] queryGroups(String province, Integer schoolId, Integer professionalId, Integer year)

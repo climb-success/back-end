@@ -20,7 +20,7 @@
 		<![CDATA[ 
 		 select distinct g from Group g, School ss, Professional pp 
 		 where ((:schoolId is null or g.schoolId = :schoolId) and (ss.id = g.schoolId and ss.province = :province)) 
-		 and (:professionalId is null or (pp.id = g.professionalId and g.professionalId = :professionalId)) 
+		 and (:professionalId is null or ((pp.id = g.professionalId and g.professionalId = :professionalId) or g.professionalId is null)) 
 		 and (:year is null or g.year = :year)  
 		 order by g.updateDate desc
 		 ]]>
