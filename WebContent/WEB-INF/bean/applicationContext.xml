@@ -33,7 +33,7 @@ xsi:schemaLocation="
 		<property name="userName" value="wozijilele@163.com"></property>
 		<property name="password" value="wo123456"></property>
 		<property name="host" value="smtp.163.com"></property>
-		<property name="port" value="25"></property>
+		<property name="port" value="465"></property>
 	</bean>
 	
    <!-- 	<bean name="service.Student">

@@ -7,12 +7,15 @@ import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
 
 import org.apache.log4j.Logger;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 
 import com.hibernate.DaoService;
 import com.util.FileUtil;
@@ -29,7 +32,8 @@ public class DaoEmail extends DaoService implements EmailService
 {
     private static Logger logger = Logger.getLogger(DaoEmail.class);
     
-    private JavaMailSenderImpl mailSender = createMailSender();
+    //private JavaMailSenderImpl mailSender = createMailSender();
+    private Session mailSession;
     private String userName;
     private String password;
     private String host;
@@ -48,6 +52,7 @@ public class DaoEmail extends DaoService implements EmailService
             return null;
         
         File file = new File(path);
+        //logger.info(file.getAbsoluteFile());
         if (!file.exists())
             return null;
         
@@ -98,36 +103,43 @@ public class DaoEmail extends DaoService implements EmailService
      * @param to 接受人
      * @param subject 主题
      * @param content 发送内容
-     * @param cc 抄送
+     * @param ccs 抄送
      * @param attachs 附件
      */
-    public boolean sendMail(String to, String[] cc, String subject, String content, String[] attachs)
+    public boolean sendMail(String to, String[] ccs, String subject, String content, String[] attachs)
     {
-        try
+        
+        mailSession = createMailSession();
+        MimeMessage message = new MimeMessage(mailSession);
+        
+        try 
         {
-            mailSender = createMailSender();
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            // 设置utf-8或GBK编码，否则邮件会有乱码
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            messageHelper.setFrom(this.userName, "sss");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-            messageHelper.setBcc(cc);
-            if (attachs != null && attachs.length > 0)
+            // 设置发件人
+            InternetAddress from = new InternetAddress(this.userName);
+            message.setFrom(from);
+            Address[] a = new Address[1];
+            a[0] = new InternetAddress(this.userName);
+            message.setReplyTo(a);
+            // 设置收件人
+            InternetAddress toP = new InternetAddress(to);
+            message.setRecipient(MimeMessage.RecipientType.TO, toP);
+            
+            if(ccs != null && ccs.length > 0)
             {
-                for (String attach : attachs)
-                {
-                    File file = new File(attach);
-                    if (file.exists())
-                        messageHelper.addAttachment(MimeUtility.encodeWord(file.getName()), file);
-                }
+                for (String cc : ccs)
+                    message.addRecipients(MimeMessage.RecipientType.CC, cc);
             }
             
-            mailSender.send(mimeMessage);
+            // 设置邮件标题
+            message.setSubject(subject);
+            // 设置邮件的内容体
+            message.setContent(content, "text/html;charset=UTF-8");
+            
+            // 发送邮件
+            Transport.send(message);
             return true;
         }
-        catch (Exception e)
+        catch (Exception e) 
         {
             logger.error(LogUtil.toString(e));
         }
@@ -135,19 +147,34 @@ public class DaoEmail extends DaoService implements EmailService
         return false;
     }
     
-    private JavaMailSenderImpl createMailSender() 
+    /**
+     * @return
+     */
+    private Session createMailSession()
     {
-        JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        sender.setHost(this.host);
-        sender.setPort(this.port);
-        sender.setUsername(this.userName);
-        sender.setPassword(this.password);
-        sender.setDefaultEncoding("Utf-8");
-        Properties p = new Properties();
-        p.setProperty("mail.smtp.timeout", "25000");
-        p.setProperty("mail.smtp.auth", "false");
-        sender.setJavaMailProperties(p);
-        return sender;
+        // 配置发送邮件的环境属性
+        final Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", this.host);
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.socketFactory.port", this.port);
+        props.put("mail.smtp.port", this.port);
+        // 发件人的账号
+        props.put("mail.user", this.userName);
+        // 访问SMTP服务时需要提供的密码
+        props.put("mail.password", this.password);
+        // 构建授权信息，用于进行SMTP进行身份验证
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                // 用户名、密码
+                String userName = props.getProperty("mail.user");
+                String password = props.getProperty("mail.password");
+                return new PasswordAuthentication(userName, password);
+            }
+        };
+        // 使用环境属性和授权信息，创建邮件会话
+        return Session.getInstance(props, authenticator);
     }
     
     public String getUserName()
