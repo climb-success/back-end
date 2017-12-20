@@ -69,4 +69,20 @@ public class DaoProfessional extends DaoService implements ProfessionalService
         
         return (Professional) result[0];
     }
+
+    /**
+     * @see com.dao.ProfessionalService#getProfessionalByCode(java.lang.String)
+     */
+    @Override
+    public Professional getProfessionalByCode(String code)
+    {
+        Professional professional = null;
+        Map args = new HashMap<>();
+        args.put("code", code);
+        Object[] result = query("PROFESSIONAL.QUERY_BY_CODE", args);
+        if (result == null || result.length == 0)
+            return null;
+        
+        return (Professional) result[0];
+    }
 }

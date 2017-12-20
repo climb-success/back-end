@@ -5,6 +5,7 @@ package com.dao;
 
 import java.util.List;
 
+import com.content.School;
 import com.content.SchoolProfessional;
 
 /**

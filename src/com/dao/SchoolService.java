@@ -24,4 +24,11 @@ public interface SchoolService
     public School[] querySchools(String name, String province);
 
     public School[] getAllSchools();
+
+    /**
+     * @param name
+     * @param province
+     * @return
+     */
+    public School querySchool(String name, String province);
 }

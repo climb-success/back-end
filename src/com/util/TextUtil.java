@@ -1358,4 +1358,30 @@ public class TextUtil
     {
        return string1 == null ? string2 == null : string1.equalsIgnoreCase(string2);
     }
+    
+    /**
+     * Converts a binary array to readable text using Bas64 encoding.
+     * @param input the byte array to be encode.
+     * @return an encoded string.
+     * @see Base64#encode(byte[], int, int)
+     * @since 1.0
+     */
+    public static String encode(byte[] input)
+    {
+        return (input == null ? null : Base64.encode(input, 0, input.length));
+    }
+    
+    /**
+     * Converts a binary array to readable text using Bas64 encoding.
+     * @param input the byte array to be encode.
+     * @param offset the starting offset to encode.
+     * @param len the number of bytes to encode.
+     * @return an encoded string.
+     * @see Base64#encode(byte[], int, int)
+     * @since 1.0
+     */
+    public static String encode(byte[] input, int offset, int len)
+    {
+        return Base64.encode(input, offset, len);
+    }
 }

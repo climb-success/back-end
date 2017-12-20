@@ -32,7 +32,6 @@ public class DaoEmail extends DaoService implements EmailService
 {
     private static Logger logger = Logger.getLogger(DaoEmail.class);
     
-    //private JavaMailSenderImpl mailSender = createMailSender();
     private Session mailSession;
     private String userName;
     private String password;

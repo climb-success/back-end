@@ -6,17 +6,23 @@
 			<generator class="native"/>
 		</id>
     	<property name="name" column="NAME"/>
+    	<property name="code" column="CODE"/>
     	<property name="updateDate" column="UPDATE_DATE"/>
 	</class>
 	
 	<query name="PROFESSIONAL.QUERY_ALL">
 		<![CDATA[ 
-		 from Professional order by name desc
+		 from Professional order by code desc
 		 ]]>
 	</query>
 	<query name="PROFESSIONAL.QUERY_BY_NAME">
 		<![CDATA[ 
 		 from Professional where name = :name
+		 ]]>
+	</query>
+	<query name="PROFESSIONAL.QUERY_BY_CODE">
+		<![CDATA[ 
+		 from Professional where code = :code
 		 ]]>
 	</query>
 </hibernate-mapping>

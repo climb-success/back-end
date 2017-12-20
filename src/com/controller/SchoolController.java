@@ -61,12 +61,25 @@ public class SchoolController extends ControllerUtil
         {
             ObjectMapper mapper = new ObjectMapper();
             School school = mapper.readValue(jsonString, School.class);
-            if (school.getId() == 0)
-                schoolService.createSchool(school);
-            else
-                schoolService.updateSchool(school);
+            School schooldb = schoolService.querySchool(school.getName(), school.getProvince());
             
-            schoolProfessionalService.updateSchoolProfessionals(school.getId(), school.getSchoolProfessionals());
+            Integer schoolId = 0;
+            if (schooldb != null 
+                    && schooldb.getId() != 0 
+                    && schooldb.getId() != null)
+            {
+                schooldb.setName(school.getName());
+                schooldb.setProvince(school.getProvince());
+                schooldb.setSchoolProfessionals(school.getSchoolProfessionals());
+                schoolId = schooldb.getId();
+            }
+            else
+            {
+                schoolService.createSchool(school);
+                schoolId = school.getId();
+            }
+            
+            schoolProfessionalService.updateSchoolProfessionals(schoolId, school.getSchoolProfessionals());
             
             return SUCCESS;
         }

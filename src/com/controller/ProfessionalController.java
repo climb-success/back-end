@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ServiceFactory;
 import com.util.LogUtil;
 import com.util.NumberUtil;
+import com.util.TextUtil;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,17 +52,26 @@ public class ProfessionalController extends ControllerUtil
         {
             ObjectMapper mapper = new ObjectMapper();
             Professional professional = mapper.readValue(jsonString, Professional.class);
-            professional.setUpdateDate(new Date());
-            if (professional.getId() == 0)
+            if (TextUtil.isEmpty(professional.getCode()))
+                return FAILED;
+            
+            Professional professionaldb = professionalService.getProfessionalByCode(professional.getCode());
+            
+            if (professionaldb != null 
+                    && professionaldb.getId() != null 
+                    && professionaldb.getId() > 0)
             {
-                Professional professionaldb = professionalService.getProfessionalByName(professional.getName());
-                if (professionaldb != null)
-                    return EXIST;
-                
-                professionalService.createProfessional(professional);
+                professionaldb.setName(professional.getName());
+                professionaldb.setCode(professional.getCode());
+                professionaldb.setUpdateDate(new Date());
+                professionalService.updateProfessional(professionaldb);
             }
             else
-                professionalService.updateProfessional(professional);
+            {
+                professional.setUpdateDate(new Date());
+                professionalService.createProfessional(professional);
+            }
+                
             
             return SUCCESS;
         }

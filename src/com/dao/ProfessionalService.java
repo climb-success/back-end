@@ -24,4 +24,6 @@ public interface ProfessionalService
     public Professional[] getAllProfessional();
     
     public Professional getProfessionalByName(String name);
+    
+    public Professional getProfessionalByCode(String code);
 }

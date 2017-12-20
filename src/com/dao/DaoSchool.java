@@ -73,4 +73,17 @@ public class DaoSchool extends DaoService implements SchoolService
         
         return schools;
     }
+    
+    /**
+     * @see com.dao.SchoolProfessionalService#querySchool(java.lang.String, java.lang.String)
+     */
+    @Override
+    public School querySchool(String name, String province)
+    {
+        School[] schools = querySchools(name, province);
+        if (schools == null || schools.length == 0)
+            return null;
+        
+        return (School) schools[0];
+    }
 }
