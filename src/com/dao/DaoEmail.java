@@ -73,7 +73,9 @@ public class DaoEmail extends DaoService implements EmailService
         {
             for(Map.Entry<String, String> entry: map.entrySet())
             {
-                content = content.replaceAll("\\$\\{" + entry.getKey() + "\\}", entry.getValue());
+                String value = entry.getValue();
+                if (!TextUtil.isEmpty(value))
+                    content = content.replaceAll("\\$\\{" + entry.getKey() + "\\}", entry.getValue());
             }
                 
         }

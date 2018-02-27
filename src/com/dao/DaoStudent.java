@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 import com.content.Administrator;
 import com.content.Config;
 import com.content.Mail;
+import com.content.Professional;
+import com.content.School;
 import com.content.Student;
 import com.hibernate.DaoService;
 import com.service.ServiceFactory;
@@ -106,12 +108,22 @@ public class DaoStudent extends DaoService implements StudentService
             if (config != null 
                     && !TextUtil.isEmpty(config.getInput()))
                 path = config.getInput();
-            if (!TextUtil.isEmpty(path))
-            {
-                path = path.endsWith("/") ? path : path + "/";
-                path = path + "editStudent?id=" + student.getId();
-            }
+            
+            if (TextUtil.isEmpty(path))
+                return false;
+            
+            path = path.endsWith("/") ? path : path + "/";
+            path = path + "/student/adminStudent?id=" + student.getId();
             map.put("url", path);
+            School school = ServiceFactory.getSchoolService().getById(student.getSchoolId());
+            map.put("school", school.getName());
+            Professional professional = ServiceFactory.getProfessionalService().getById(student.getProfessionalId());
+            map.put("professional", professional.getName());
+            map.put("requirement", student.getRequirement());
+            map.put("telePhone", student.getTelePhone());
+            map.put("qq", student.getQq());
+            map.put("weixin", student.getWeixin());
+            map.put("status", student.getStatus());
             String content = emailService.getContent(Mail.STUDENT_TEMPLATE, map);
             String to = null;
             List<String> ccList = new ArrayList<String>();

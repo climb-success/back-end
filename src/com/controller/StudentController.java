@@ -49,6 +49,15 @@ public class StudentController extends ControllerUtil
         return null;
     }
     
+    @RequestMapping(value = "/adminStudent", method = RequestMethod.GET)
+    public @ResponseBody Student getAdminStudent(@RequestParam String id)
+    {
+        Integer idNow = NumberUtil.parseInteger(id);
+        if (idNow == null)
+            return null;
+        return studentService.getById(idNow);
+    }
+    
     @RequestMapping(value = "/updateStudent", method = RequestMethod.POST)
     public @ResponseBody String updateStudent(@RequestBody String jsonString)
     {
