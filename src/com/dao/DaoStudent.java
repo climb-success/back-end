@@ -4,6 +4,7 @@
 package com.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +101,7 @@ public class DaoStudent extends DaoService implements StudentService
         if (Student.STATUS_NOT_FINISH.equals(student.getStatus()))
         {
             EmailService emailService = ServiceFactory.getEmailService();
-            String subject = "Ñ§Éú¶©µ¥";
+            String subject = (int) (Math.random()*100) + "  Order";
             Map<String, String> map = new HashMap<String, String>();
             map.put("name", student.getName());
             Config config = ServiceFactory.getConfigService().queryOneConfigByName(Config.POST_URL);
@@ -116,9 +117,11 @@ public class DaoStudent extends DaoService implements StudentService
             path = path + "/student/adminStudent?id=" + student.getId();
             map.put("url", path);
             School school = ServiceFactory.getSchoolService().getById(student.getSchoolId());
-            map.put("school", school.getName());
+            if (school != null)
+                map.put("school", school.getName());
             Professional professional = ServiceFactory.getProfessionalService().getById(student.getProfessionalId());
-            map.put("professional", professional.getName());
+            if (professional != null)
+                map.put("professional", professional.getName());
             map.put("requirement", student.getRequirement());
             map.put("telePhone", student.getTelePhone());
             map.put("qq", student.getQq());

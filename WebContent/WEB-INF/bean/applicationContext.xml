@@ -30,9 +30,9 @@ xsi:schemaLocation="
 	<bean id="service.Information" class="com.dao.DaoInformation"/>
 	
 	<bean name="service.Email" class="com.dao.DaoEmail">
-		<property name="userName" value="wozijilele@163.com"></property>
-		<property name="password" value="wo123456"></property>
-		<property name="host" value="smtp.163.com"></property>
+		<property name="userName" value="email@51vipkaoyan.com"></property>
+		<property name="password" value="SUCCESS123success"></property>
+		<property name="host" value="smtpdm.aliyun.com"></property>
 		<property name="port" value="465"></property>
 	</bean>
 	
