@@ -25,6 +25,7 @@ public class Teacher
     private String telePhone;
     private String qq;
     private String weixin;
+    private float score;
     private String requirement;
     private Integer grade;
     private Date updateDate;
@@ -99,6 +100,16 @@ public class Teacher
         this.weixin = weixin;
     }
     
+    public float getScore()
+    {
+        return score;
+    }
+
+    public void setScore(float score)
+    {
+        this.score = score;
+    }
+
     public String getRequirement()
     {
         return requirement;

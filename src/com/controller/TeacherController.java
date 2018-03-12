@@ -66,6 +66,7 @@ public class TeacherController extends ControllerUtil
                 teacherdb.setTelePhone(teacher.getTelePhone());
                 teacherdb.setQq(teacher.getQq());
                 teacherdb.setWeixin(teacher.getWeixin());
+                teacherdb.setScore(teacher.getScore());
                 teacherdb.setRequirement(teacher.getRequirement());
                 teacherdb.setGrade(teacher.getGrade());
                 teacherdb.setUpdateDate(new Date());

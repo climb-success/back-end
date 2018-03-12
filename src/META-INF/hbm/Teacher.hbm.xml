@@ -11,6 +11,7 @@
     	<property name="telePhone" column="TELEPHONE"/>
     	<property name="qq" column="QQ"/>
     	<property name="weixin" column="WEIXIN"/>
+    	<property name="score" column="SCORE"/>
     	<property name="requirement" column="REQUIREMENT"/>
     	<property name="grade" column="GRADE"/>
     	<property name="updateDate" column="UPDATE_DATE"/>    
