@@ -3,7 +3,9 @@
  */
 package com.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.content.Professional;
 import com.content.School;
 import com.content.SchoolProfessional;
 import com.controller.util.ControllerUtil;
+import com.dao.ProfessionalService;
 import com.dao.SchoolProfessionalService;
 import com.dao.SchoolService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +54,17 @@ public class SchoolController extends ControllerUtil
         
         SchoolProfessional[] sps = schoolProfessionalService.getSchoolProfessionalsBySchoolId(school.getId());
         if (sps != null && sps.length != 0)
-            school.setSchoolProfessionals(Arrays.asList(sps));
+        {
+            List<Professional> professionals = new ArrayList<Professional>();
+            ProfessionalService professionalService = ServiceFactory.getProfessionalService();
+            for (SchoolProfessional sp : sps)
+            {
+                Professional professional = professionalService.getById(sp.getProfessionalId());
+                professionals.add(professional);
+            }
+            school.setProfessionals(professionals);
+        }
+            
         return school;
     }
     

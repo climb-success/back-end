@@ -19,6 +19,8 @@ public class School
     private String province;
     private List<SchoolProfessional> schoolProfessionals = new ArrayList<SchoolProfessional>();
     
+    private transient List<Professional> professionals = new ArrayList<Professional>();
+    
     public Integer getId()
     {
         return id;
@@ -50,5 +52,14 @@ public class School
     public void setSchoolProfessionals(List<SchoolProfessional> schoolProfessionals)
     {
         this.schoolProfessionals = schoolProfessionals;
+    }
+    
+    public List<Professional> getProfessionals()
+    {
+        return professionals;
+    }
+    public void setProfessionals(List<Professional> professionals)
+    {
+        this.professionals = professionals;
     }
 }
