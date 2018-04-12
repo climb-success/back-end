@@ -52,13 +52,14 @@ public class DaoStudent extends DaoService implements StudentService
         delete(student);
     }
     
-    public Student[] queryStudents(String name, String school, String professional, String requirement, Integer grade,String status)
+    public Student[] queryStudents(String name, Integer schoolId, Integer professionalId, String telePhone, String requirement, Integer grade,String status)
     {
         Student[] students = null;
         Map args = new HashMap<>();
         args.put("name", TextUtil.isEmpty(name) ? null : "%" + name + "%");
-        args.put("school", TextUtil.isEmpty(school) ? null : "%" + school + "%");
-        args.put("professional", TextUtil.isEmpty(professional) ? null : "%" + professional + "%");
+        args.put("schoolId", schoolId == null ? null : schoolId);
+        args.put("professionalId", professionalId == null ? null : professionalId);
+        args.put("telePhone", TextUtil.isEmpty(telePhone) ? null : "%" + telePhone + "%");
         args.put("requirement", TextUtil.isEmpty(requirement) ? null : "%" + requirement + "%");
         args.put("grade", grade == null ? null : grade);
         args.put("status", TextUtil.isEmpty(status) ? null : "%" + status + "%");

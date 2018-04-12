@@ -21,8 +21,9 @@
 		<![CDATA[ 
 		 select distinct t from Teacher t, School ss, Professional pp 
 		 where (:name is null or t.name like :name) 
-		 and (:school is null or (ss.id = t.schoolId and ss.name like :school)) 
-		 and (:professional is null or (pp.id = t.professionalId and pp.name like :professional)) 
+		 and (:schoolId is null or (ss.id = t.schoolId and t.schoolId = :schoolId)) 
+		 and (:professional is null or (pp.id = t.professionalId and t.professionalId = :professionalId)) 
+		 and (:telePhone is null or t.telePhone like :telePhone) 
 		 and (:requirement is null or t.requirement like :requirement) 
 		 and (:grade is null or t.grade = :grade) 
 		 order by t.updateDate desc

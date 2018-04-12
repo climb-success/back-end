@@ -20,8 +20,8 @@
 		<![CDATA[ 
 		 select distinct i from Information i, School ss, Professional pp 
 		 where (:name is null or i.name like :name) 
-		 and (:school is null or (ss.id = i.schoolId and ss.name like :school)) 
-		 and (:professional is null or (pp.id = i.professionalId and pp.name like :professional)) 
+		 and (:schoolId is null or (ss.id = i.schoolId and ss.id = :schoolId)) 
+		 and (:professionalId is null or (pp.id = i.professionalId and pp.id = :professionalId)) 
 		 and (:year is null or i.year = :year) 
 		 order by i.updateDate desc
 		 ]]>

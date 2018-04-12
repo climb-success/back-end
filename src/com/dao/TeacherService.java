@@ -21,7 +21,7 @@ public interface TeacherService
     
     public void deleteTeacher(Teacher teacher);
     
-    public Teacher[] queryTeachers(String name, String school, String professional, String requirement, Integer grade);
+    public Teacher[] queryTeachers(String name, Integer school, Integer professionalId, String telePhone, String requirement, Integer grade);
 
     public Teacher queryTeacherByTelePhone(String telePhone);
 }

@@ -19,7 +19,7 @@
 		<![CDATA[ 
 		 from School as s where (:name is null or s.name like :name) 
 		 and (:province is null or s.province like :province) 
-		 order by s.id desc
+		 order by s.id asc
 		 ]]>
 	</query>
 </hibernate-mapping>

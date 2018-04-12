@@ -90,7 +90,7 @@ public class TeacherController extends ControllerUtil
     
     @RequestMapping(value = "/searchTeacher", method = RequestMethod.GET)
     public @ResponseBody Teacher[] searchTeacher(@RequestParam String adminName, String name, 
-            String school, String professional, String requirement, String grade)
+            String schoolId, String professionalId, String telePhone, String requirement, String grade)
     {
         Teacher[] Teachers = null;
         
@@ -98,7 +98,9 @@ public class TeacherController extends ControllerUtil
         {
             try
             {
-                Teachers = teacherService.queryTeachers(name, school, professional, requirement, NumberUtil.parseInteger(grade));
+                Teachers = teacherService.queryTeachers(name, 
+                        NumberUtil.parseInteger(schoolId), NumberUtil.parseInteger(professionalId), 
+                        telePhone, requirement, NumberUtil.parseInteger(grade));
             }
             catch (Exception e)
             {

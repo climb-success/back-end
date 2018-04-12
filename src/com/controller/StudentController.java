@@ -103,14 +103,16 @@ public class StudentController extends ControllerUtil
     
     @RequestMapping(value = "/searchStudent", method = RequestMethod.GET)
     public @ResponseBody Student[] searchStudent(@RequestParam String adminName, String name, 
-            String school, String professional, String requirement, String grade, String status)
+            String schoolId, String professionalId, String telePhone, String requirement, String grade, String status)
     {
         Student[] students = null;
         if (validateAdmin(adminName))
         {
             try
             {
-                students = studentService.queryStudents(name, school, professional, requirement, NumberUtil.parseInteger(grade), status);
+                students = studentService.queryStudents(name, 
+                        NumberUtil.parseInteger(schoolId), NumberUtil.parseInteger(professionalId), 
+                        telePhone, requirement, NumberUtil.parseInteger(grade), status);
             }
             catch (Exception e)
             {

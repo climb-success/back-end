@@ -21,8 +21,9 @@
 		<![CDATA[ 
 		 select distinct s from Student s, School ss, Professional pp 
 		 where (:name is null or s.name like :name) 
-		 and (:school is null or (ss.id = s.schoolId and ss.name like :school)) 
-		 and (:professional is null or (pp.id = s.professionalId and pp.name like :professional)) 
+		 and (:schoolId is null or (ss.id = s.schoolId and s.schoolId = :schoolId)) 
+		 and (:professionalId is null or (pp.id = s.professionalId and s.professionalId = :professionalId)) 
+		 and (:telePhone is null or s.telePhone like :telePhone) 
 		 and (:requirement is null or s.requirement like :requirement) 
 		 and (:grade is null or s.grade = :grade) 
 		 and (:status is null or s.status = :status) 

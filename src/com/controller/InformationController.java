@@ -52,6 +52,7 @@ public class InformationController extends ControllerUtil
             ObjectMapper mapper = new ObjectMapper();
             Information information = mapper.readValue(jsonString, Information.class);
             information.setUpdateDate(new Date());
+            
             Information informationdb = informationService.getById(information.getId());
             if (informationdb != null && information.getId() != 0)
             {
@@ -81,12 +82,13 @@ public class InformationController extends ControllerUtil
     }
     
     @RequestMapping(value = "/searchInformation", method = RequestMethod.GET)
-    public @ResponseBody Information[] searchInformation(String name, String school, String professional, String year)
+    public @ResponseBody Information[] searchInformation(String name, String schoolId, String professionalId, String year)
     {
         Information[] informations = null;
         try
         {
-            informations = informationService.queryInformations(name, school, professional, NumberUtil.parseInteger(year));
+            informations = informationService.queryInformations(name, NumberUtil.parseInteger(schoolId), 
+                    NumberUtil.parseInteger(professionalId), NumberUtil.parseInteger(year));
         }
         catch (Exception e)
         {

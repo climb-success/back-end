@@ -5,6 +5,7 @@ package com.content;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.service.ServiceFactory;
 import com.util.TextUtil;
 
@@ -93,6 +94,7 @@ public class Information
     {
         this.year = year;
     }
+    @JsonIgnore
     public Date getSetDate()
     {
         return setDate;
@@ -101,6 +103,8 @@ public class Information
     {
         this.setDate = setDate;
     }
+    
+    @JsonIgnore
     public Date getUpdateDate()
     {
         return updateDate;

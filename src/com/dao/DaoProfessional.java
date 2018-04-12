@@ -8,7 +8,6 @@ import java.util.Map;
 
 import com.content.Professional;
 import com.hibernate.DaoService;
-import com.util.TextUtil;
 
 /**
  * DaoStudent.

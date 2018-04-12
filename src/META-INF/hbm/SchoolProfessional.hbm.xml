@@ -12,7 +12,7 @@
 	
 	<query name="SCHOOLPROFESSIONAL.QUERY_BY_SCHOOLID">
 		<![CDATA[ 
-		 from SchoolProfessional sp where sp.schoolId = :schoolId
+		 from SchoolProfessional sp where sp.schoolId = :schoolId order by sp.professionalId asc
 		 ]]>
 	</query>
 </hibernate-mapping>
