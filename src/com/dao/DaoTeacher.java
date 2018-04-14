@@ -38,7 +38,8 @@ public class DaoTeacher extends DaoService implements TeacherService
         delete(teacher);
     }
     
-    public Teacher[] queryTeachers(String name, Integer schoolId, Integer professionalId, String telePhone, String requirement, Integer grade)
+    public Teacher[] queryTeachers(String name, Integer schoolId, Integer professionalId, 
+            String telePhone, String requirement, Integer grade, String province)
     {
         Teacher[] teachers = null;
         Map args = new HashMap<>();
@@ -47,7 +48,8 @@ public class DaoTeacher extends DaoService implements TeacherService
         args.put("professionalId", professionalId == null ? null : professionalId);
         args.put("telePhone", TextUtil.isEmpty(telePhone) ? null : "%" + telePhone + "%");
         args.put("requirement", TextUtil.isEmpty(requirement) ? null : "%" + requirement + "%");
-        args.put("grade", grade);
+        args.put("grade", grade == null ? null : grade);
+        args.put("province", TextUtil.isEmpty(province) ? null : "%" + province + "%");
         Object[] result = query("TEACHER.QUERY_BY_NAME_SCHOOL_PROFESSION_REQUIREMENT", args);
         if (result == null)
             return null;

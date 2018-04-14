@@ -21,7 +21,7 @@ public interface StudentService
     
     public void deleteStudent(Student student);
     
-    public Student[] queryStudents(String name, Integer schoolId, Integer professionalId, String telePhone, String requirement, Integer grade, String status);
+    public Student[] queryStudents(String name, Integer schoolId, Integer professionalId, String telePhone, String requirement, Integer grade, String status, String province);
 
     public Student queryStudentByTelePhone(String telePhone);
     

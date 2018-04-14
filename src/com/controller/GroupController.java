@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ServiceFactory;
 import com.util.LogUtil;
 import com.util.NumberUtil;
+import com.util.TextUtil;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,16 +88,41 @@ public class GroupController extends ControllerUtil
         return FAILED;
     }
     
+    @RequestMapping(value = "/deleteGroup", method = RequestMethod.DELETE)
+    public @ResponseBody String deleteGroup(@RequestParam String id)
+    {
+        try
+        {
+            Integer groupId = NumberUtil.parseInteger(id);
+            if (groupId == null || groupId <= 0)
+                return FAILED;
+            
+            Group group = groupService.getById(groupId);
+            if (group == null)
+                return FAILED;
+            
+            groupService.deleteGroup(group);
+            
+            return SUCCESS;
+        }
+        catch (Exception e)
+        {
+            logger.error(LogUtil.toString(e));
+        }
+        return FAILED;
+    } 
+    
     @RequestMapping(value = "/searchGroup", method = RequestMethod.GET)
-    public @ResponseBody Group[] searchGroup(String province, String schoolId, String professionalId, String year)
+    public @ResponseBody Group[] searchGroup(String province, String schoolId, String professionalId, String year, String name)
     {
         Group[] Groups = null;
         try
         {
+            province = !TextUtil.isEmpty(schoolId) ? null : province;
             Groups = groupService.queryGroups(province, 
                     NumberUtil.parseInteger(schoolId), 
                     NumberUtil.parseInteger(professionalId), 
-                    NumberUtil.parseInteger(year));
+                    NumberUtil.parseInteger(year), name);
         }
         catch (Exception e)
         {

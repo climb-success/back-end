@@ -30,8 +30,13 @@ public class Student
     private String status;
     private Date updateDate;
     
-    public static final String STATUS_NOT_FINISH = "NOT_FINISH";
-    public static final String STATUS_FINISH = "FINISH";
+    private transient String schoolName;
+    private transient String professionalName;
+    
+    public static final String NOT_FINISH = "NOT_FINISH";
+    public static final String SEND_EAMIL_FINISH = "SEND_EAMIL_FINISH";
+    public static final String CLASSING = "CLASSING";
+    public static final String FINISH = "FINISH";
     
     public int getId()
     {

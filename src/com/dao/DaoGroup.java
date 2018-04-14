@@ -38,7 +38,7 @@ public class DaoGroup extends DaoService implements GroupService
         delete(group);
     }
     
-    public Group[] queryGroups(String province, Integer schoolId, Integer professionalId, Integer year)
+    public Group[] queryGroups(String province, Integer schoolId, Integer professionalId, Integer year, String name)
     {
         Group[] groups = null;
         Map args = new HashMap<>();
@@ -46,6 +46,7 @@ public class DaoGroup extends DaoService implements GroupService
         args.put("schoolId", schoolId == null || schoolId == 0 ? null : schoolId);
         args.put("professionalId", professionalId == null || professionalId == 0 ? null : professionalId);
         args.put("year", year == null || year == 0 ? null : year);
+        args.put("name", TextUtil.isEmpty(name) ? null : "%" + name + "%");
         Object[] result = query("SUPER_GROUP.QUERY_BY_SCHOOL_PROFESSION", args);
         if (result == null)
             return new Group[0];

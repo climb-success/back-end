@@ -23,7 +23,7 @@ public interface InformationService
     
     public void deleteInformation(Information information);
     
-    public Information[] queryInformations(String name, Integer schoolId, Integer professionalId, Integer year);
+    public Information[] queryInformations(String name, Integer schoolId, Integer professionalId, Integer year, String province);
     
     public String generateURL(Integer id, Integer informationCategoryId, String Url, Date setDate);
 }

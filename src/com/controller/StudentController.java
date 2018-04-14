@@ -71,13 +71,13 @@ public class StudentController extends ControllerUtil
             {
                 studentdb.setName(student.getName());
                 studentdb.setSchoolId(student.getSchoolId());
-                studentdb.setProfessionalId(studentdb.getProfessionalId());
+                studentdb.setProfessionalId(student.getProfessionalId());
                 studentdb.setTelePhone(student.getTelePhone());
                 studentdb.setQq(student.getQq());
                 studentdb.setWeixin(student.getWeixin());
                 studentdb.setRequirement(student.getRequirement());
                 studentdb.setGrade(student.getGrade());
-                studentdb.setStatus(TextUtil.isEmpty(student.getStatus()) ? Student.STATUS_NOT_FINISH : student.getStatus());
+                studentdb.setStatus(TextUtil.isEmpty(student.getStatus()) ? Student.NOT_FINISH : student.getStatus());
                 studentdb.setUpdateDate(new Date());
                 studentService.updateStudent(studentdb);
                 studentService.sendStudentEmail(studentdb);
@@ -85,7 +85,7 @@ public class StudentController extends ControllerUtil
             else
             {
                 student.setId(new Integer(0));
-                student.setStatus(Student.STATUS_NOT_FINISH);
+                student.setStatus(Student.NOT_FINISH);
                 student.setUpdateDate(new Date());
                 studentService.createStudent(student);
                 studentService.sendStudentEmail(student);
@@ -101,18 +101,44 @@ public class StudentController extends ControllerUtil
         return FAILED;
     }
     
+    @RequestMapping(value = "/deleteStudent", method = RequestMethod.DELETE)
+    public @ResponseBody String deleteStudent(@RequestParam String id)
+    {
+        try
+        {
+            Integer studentId = NumberUtil.parseInteger(id);
+            if (studentId == null || studentId <= 0)
+                return FAILED;
+            
+            Student student = studentService.getById(studentId);
+            if (student == null)
+                return FAILED;
+            
+            studentService.deleteStudent(student);
+            
+            return SUCCESS;
+        }
+        catch (Exception e)
+        {
+            logger.error(LogUtil.toString(e));
+        }
+        return FAILED;
+    } 
+    
     @RequestMapping(value = "/searchStudent", method = RequestMethod.GET)
     public @ResponseBody Student[] searchStudent(@RequestParam String adminName, String name, 
-            String schoolId, String professionalId, String telePhone, String requirement, String grade, String status)
+            String schoolId, String professionalId, String telePhone, 
+            String requirement, String grade, String status, String province)
     {
         Student[] students = null;
         if (validateAdmin(adminName))
         {
             try
             {
+                province = !TextUtil.isEmpty(schoolId) ? null : province;
                 students = studentService.queryStudents(name, 
                         NumberUtil.parseInteger(schoolId), NumberUtil.parseInteger(professionalId), 
-                        telePhone, requirement, NumberUtil.parseInteger(grade), status);
+                        telePhone, requirement, NumberUtil.parseInteger(grade), status, province);
             }
             catch (Exception e)
             {

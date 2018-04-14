@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ServiceFactory;
 import com.util.LogUtil;
 import com.util.NumberUtil;
+import com.util.TextUtil;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,7 +63,7 @@ public class TeacherController extends ControllerUtil
             {
                 teacherdb.setName(teacher.getName());
                 teacherdb.setSchoolId(teacher.getSchoolId());
-                teacherdb.setProfessionalId(teacherdb.getProfessionalId());
+                teacherdb.setProfessionalId(teacher.getProfessionalId());
                 teacherdb.setTelePhone(teacher.getTelePhone());
                 teacherdb.setQq(teacher.getQq());
                 teacherdb.setWeixin(teacher.getWeixin());
@@ -88,19 +89,45 @@ public class TeacherController extends ControllerUtil
         return FAILED;
     }
     
+    @RequestMapping(value = "/deleteTeacher", method = RequestMethod.DELETE)
+    public @ResponseBody String deleteTeacher(@RequestParam String id)
+    {
+        try
+        {
+            Integer teacherId = NumberUtil.parseInteger(id);
+            if (teacherId == null || teacherId <= 0)
+                return FAILED;
+            
+            Teacher teacher = teacherService.getById(teacherId);
+            if (teacher == null)
+                return FAILED;
+            
+            teacherService.deleteTeacher(teacher);
+            
+            return SUCCESS;
+        }
+        catch (Exception e)
+        {
+            logger.error(LogUtil.toString(e));
+        }
+        return FAILED;
+    } 
+    
     @RequestMapping(value = "/searchTeacher", method = RequestMethod.GET)
     public @ResponseBody Teacher[] searchTeacher(@RequestParam String adminName, String name, 
-            String schoolId, String professionalId, String telePhone, String requirement, String grade)
+            String schoolId, String professionalId, String telePhone, 
+            String requirement, String grade, String province)
     {
-        Teacher[] Teachers = null;
+        Teacher[] teachers = null;
         
         if (validateAdmin(adminName))
         {
             try
             {
-                Teachers = teacherService.queryTeachers(name, 
+                province = !TextUtil.isEmpty(schoolId) ? null : province;
+                teachers = teacherService.queryTeachers(name, 
                         NumberUtil.parseInteger(schoolId), NumberUtil.parseInteger(professionalId), 
-                        telePhone, requirement, NumberUtil.parseInteger(grade));
+                        telePhone, requirement, NumberUtil.parseInteger(grade), province);
             }
             catch (Exception e)
             {
@@ -108,6 +135,6 @@ public class TeacherController extends ControllerUtil
                 return null;
             }
         }
-        return Teachers;
+        return teachers;
     }
 }

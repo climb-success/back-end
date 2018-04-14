@@ -21,7 +21,7 @@ public interface GroupService
     
     public void deleteGroup(Group group);
     
-    public Group[] queryGroups(String province, Integer schoolId, Integer professionalId, Integer year);
+    public Group[] queryGroups(String province, Integer schoolId, Integer professionalId, Integer year, String name);
 
     public Group queryGroupByName(String name);
 }

@@ -4,7 +4,6 @@
 package com.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,8 @@ public class DaoStudent extends DaoService implements StudentService
         delete(student);
     }
     
-    public Student[] queryStudents(String name, Integer schoolId, Integer professionalId, String telePhone, String requirement, Integer grade,String status)
+    public Student[] queryStudents(String name, Integer schoolId, Integer professionalId, 
+            String telePhone, String requirement, Integer grade,String status, String province)
     {
         Student[] students = null;
         Map args = new HashMap<>();
@@ -63,6 +63,7 @@ public class DaoStudent extends DaoService implements StudentService
         args.put("requirement", TextUtil.isEmpty(requirement) ? null : "%" + requirement + "%");
         args.put("grade", grade == null ? null : grade);
         args.put("status", TextUtil.isEmpty(status) ? null : "%" + status + "%");
+        args.put("province", TextUtil.isEmpty(province) ? null : "%" + province + "%");
         Object[] result = query("STUDENT.QUERY_BY_NAME_SCHOOL_PROFESSION_REQUIREMENT_GRADE_STATUS", args);
         if (result == null)
             return null;
@@ -99,7 +100,7 @@ public class DaoStudent extends DaoService implements StudentService
         if (administrators == null || administrators.length == 0)
             return false;
         
-        if (Student.STATUS_NOT_FINISH.equals(student.getStatus()))
+        if (Student.NOT_FINISH.equals(student.getStatus()))
         {
             EmailService emailService = ServiceFactory.getEmailService();
             String subject = (int) (Math.random()*100) + "  Order";
@@ -115,14 +116,22 @@ public class DaoStudent extends DaoService implements StudentService
                 return false;
             
             path = path.endsWith("/") ? path : path + "/";
-            path = path + "/student/adminStudent?id=" + student.getId();
+            path = path + "/studentDetail/" + student.getId();
             map.put("url", path);
-            School school = ServiceFactory.getSchoolService().getById(student.getSchoolId());
-            if (school != null)
-                map.put("school", school.getName());
-            Professional professional = ServiceFactory.getProfessionalService().getById(student.getProfessionalId());
-            if (professional != null)
-                map.put("professional", professional.getName());
+            if (student.getSchoolId() != null)
+            {
+                School school = ServiceFactory.getSchoolService().getById(student.getSchoolId());
+                if (school != null)
+                    map.put("school", school.getName());
+                
+                if (student.getProfessionalId() != null)
+                {
+                    Professional professional = ServiceFactory.getProfessionalService().getById(student.getProfessionalId());
+                    if (professional != null)
+                        map.put("professional", professional.getName());
+                }
+            }
+            
             map.put("requirement", student.getRequirement());
             map.put("telePhone", student.getTelePhone());
             map.put("qq", student.getQq());

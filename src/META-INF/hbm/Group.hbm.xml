@@ -18,13 +18,22 @@
 	
  	<query name="SUPER_GROUP.QUERY_BY_SCHOOL_PROFESSION">
 		<![CDATA[ 
-		 select distinct g from Group g, School ss, Professional pp 
-		 where ((:schoolId is null or g.schoolId = :schoolId) and (ss.id = g.schoolId and ss.province = :province)) 
-		 and (:professionalId is null or ((pp.id = g.professionalId and g.professionalId = :professionalId) or g.professionalId is null)) 
-		 and (:year is null or g.year = :year)  
+		 from Group as g 
+		 where (:schoolId is null or g.schoolId = :schoolId)
+		 and (:professionalId is null or g.professionalId = :professionalId) 
+		 and (:year is null or g.year = :year) 
+ 		 and (:province is null or (g.schoolId in (select s.id from School s where s.province like :province))) 
+ 		 and (:name is null or g.name like :name) 
 		 order by g.updateDate desc
 		 ]]>
 	</query>
+	
+<!-- 	select distinct g from Group g, School ss, Professional pp 
+		 where ((:schoolId is null or g.schoolId = :schoolId) and (ss.id = g.schoolId and ss.province = :province)) 
+		 and (:professionalId is null or ((pp.id = g.professionalId and g.professionalId = :professionalId) or g.professionalId is null)) 
+		 and (:year is null or g.year = :year)  
+		 order by g.updateDate desc -->
+	
  	<query name="SUPER_GROUP.QUERY_BY_NAME">
 		<![CDATA[ 
 		 from Group as g where g.name = :name

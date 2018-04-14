@@ -46,7 +46,7 @@ public class DaoInformation extends DaoService implements InformationService
         delete(information);
     }
     
-    public Information[] queryInformations(String name, Integer schoolId, Integer professionalId, Integer year)
+    public Information[] queryInformations(String name, Integer schoolId, Integer professionalId, Integer year, String province)
     {
         Information[] informations = null;
         Map args = new HashMap<>();
@@ -54,6 +54,7 @@ public class DaoInformation extends DaoService implements InformationService
         args.put("schoolId", schoolId == null ? null : schoolId);
         args.put("professionalId", professionalId == null ? null : professionalId);
         args.put("year", year == null ? null : year);
+        args.put("province", TextUtil.isEmpty(province) ? null : "%" + province + "%");
         Object[] result = query("INFORMATION.QUERY_BY_NAME_SCHOOL_PROFESSIONAL_YEAR", args);
         if (result == null)
             return null;

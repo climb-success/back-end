@@ -18,12 +18,20 @@
 	
   	<query name="INFORMATION.QUERY_BY_NAME_SCHOOL_PROFESSIONAL_YEAR">
 		<![CDATA[ 
-		 select distinct i from Information i, School ss, Professional pp 
+		 from Information i 
+		 where (:name is null or i.name like :name) 
+		 and (:schoolId is null or i.schoolId = :schoolId) 
+		 and (:professionalId is null or i.professionalId = :professionalId) 
+		 and (:year is null or i.year = :year) 
+		 and (:province is null or (i.schoolId in (select s.id from School s where s.province like :province))) 
+		 order by i.updateDate desc
+		 ]]>
+	</query>
+	
+<!-- 	select distinct i from Information i, School ss, Professional pp 
 		 where (:name is null or i.name like :name) 
 		 and (:schoolId is null or (ss.id = i.schoolId and ss.id = :schoolId)) 
 		 and (:professionalId is null or (pp.id = i.professionalId and pp.id = :professionalId)) 
 		 and (:year is null or i.year = :year) 
-		 order by i.updateDate desc
-		 ]]>
-	</query>
+		 order by i.updateDate desc -->
 </hibernate-mapping>

@@ -19,16 +19,27 @@
 	
  	<query name="TEACHER.QUERY_BY_NAME_SCHOOL_PROFESSION_REQUIREMENT">
 		<![CDATA[ 
-		 select distinct t from Teacher t, School ss, Professional pp 
+		 from Teacher as t 
 		 where (:name is null or t.name like :name) 
-		 and (:schoolId is null or (ss.id = t.schoolId and t.schoolId = :schoolId)) 
-		 and (:professional is null or (pp.id = t.professionalId and t.professionalId = :professionalId)) 
+		 and (:schoolId is null or t.schoolId = :schoolId) 
+		 and (:professionalId is null or t.professionalId = :professionalId) 
 		 and (:telePhone is null or t.telePhone like :telePhone) 
 		 and (:requirement is null or t.requirement like :requirement) 
 		 and (:grade is null or t.grade = :grade) 
+		 and (:province is null or (t.schoolId in (select s.id from School s where s.province like :province))) 
 		 order by t.updateDate desc
 		 ]]>
 	</query>
+	
+<!-- 	select distinct t from Teacher t, School ss, Professional pp 
+		 where (:name is null or t.name like :name) 
+		 and (:schoolId is null or (ss.id = t.schoolId and t.schoolId = :schoolId)) 
+		 and (:professionalId is null or (pp.id = t.professionalId and t.professionalId = :professionalId)) 
+		 and (:telePhone is null or t.telePhone like :telePhone) 
+		 and (:requirement is null or t.requirement like :requirement) 
+		 and (:grade is null or t.grade = :grade) 
+		 order by t.updateDate desc -->
+	
 	<query name="TEACHER.QUERY_BY_TELEPHONE">
 		<![CDATA[ 
 		 from Teacher as t where t.telePhone = :telePhone

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ServiceFactory;
 import com.util.LogUtil;
 import com.util.NumberUtil;
+import com.util.TextUtil;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,14 +82,39 @@ public class InformationController extends ControllerUtil
         return FAILED;
     }
     
+    @RequestMapping(value = "/deleteInformation", method = RequestMethod.DELETE)
+    public @ResponseBody String deleteInformation(@RequestParam String id)
+    {
+        try
+        {
+            Integer infoId = NumberUtil.parseInteger(id);
+            if (infoId == null || infoId <= 0)
+                return FAILED;
+            
+            Information information = informationService.getById(infoId);
+            if (information == null)
+                return FAILED;
+            
+            informationService.deleteInformation(information);
+            
+            return SUCCESS;
+        }
+        catch (Exception e)
+        {
+            logger.error(LogUtil.toString(e));
+        }
+        return FAILED;
+    } 
+    
     @RequestMapping(value = "/searchInformation", method = RequestMethod.GET)
-    public @ResponseBody Information[] searchInformation(String name, String schoolId, String professionalId, String year)
+    public @ResponseBody Information[] searchInformation(String name, String schoolId, String professionalId, String year, String province)
     {
         Information[] informations = null;
         try
         {
+            province = !TextUtil.isEmpty(schoolId) ? null : province;
             informations = informationService.queryInformations(name, NumberUtil.parseInteger(schoolId), 
-                    NumberUtil.parseInteger(professionalId), NumberUtil.parseInteger(year));
+                    NumberUtil.parseInteger(professionalId), NumberUtil.parseInteger(year), province);
         }
         catch (Exception e)
         {
